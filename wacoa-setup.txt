@@ -1,0 +1,80 @@
+Setup Wacoa Docker 
+
+Step 1: 
+Unzipe Archive2 file.
+// Open terminal and go to folder.
+> cd folder path
+Run
+> docker-compose up -d
+
+
+// Now open browser:
+http://localhost/Hekisou/
+
+Step 2: Setup DB, Open in Browser
+http://localhost:8000/browser/#
+User/PW: root/root
+
+Step 3: 
+// Create server in pgAdmin 4
+General > Name : wacoa
+Connection > Host : PC IP address
+Username : default
+Password : secret
+
+// Create User for DB
+// Select Login/Group Roles from Left Menu
+Select Object > Create > Login
+General > Name: wacoa 
+Definition > Password: GW8ZmHPf
+Previlege > Set Yes to all
+> Save
+
+// Create Database
+// Select Database from Left Menu
+Select Object > Create > Database
+General > Database: wacoa
+Owner : wacoa
+> Save
+
+
+Sterp 4: 
+// Login to postgres console
+// Open terminal and go to folder.
+> cd folder path
+> docker-compose exec postgres bash
+// Move to dump directory
+> cd docker-entrypoint-initdb.d/
+// then Load dump
+> psql -h 192.168.1.151 -U wacoa -d wacoa -f hekisou_dump_20231212.dump
+
+psql -h 192.168.1.13 -U wacoa -d wacoa -f hekisou_dump_20231212.dump
+
+
+
+
+Step 5: 
+// Update Zend PHP config file in
+// cocoa/application/configs/zend.ini
+
+database.adapter         = Pdo_Pgsql
+database.params.host     = 192.168.1.137
+database.params.dbname   = wacoa
+database.params.username = wacoa
+database.params.password = GW8ZmHPf
+
+
+Step 6:
+// Now open browser:
+http://localhost/Hekisou/
+ID/PW: wacoa1/123
+
+// Member URL
+http://localhost/member/index.php
+PW: wacoa16
+
+
+
+POSTGRES_USER: default
+POSTGRES_PASSWORD: secret
+
